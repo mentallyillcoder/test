@@ -1,0 +1,55 @@
+name: Hạng mục
+description: Một việc trên bảng công việc của nhóm, kèm tiêu chí chấp nhận.
+title: "HM: "
+labels: ["hang-muc"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gắn milestone của gói (Gói 3, Gói 4, Gói 5, Gói 6) ở cột bên phải.
+        Hạng mục xử lý phiếu thay đổi: thêm nhãn `phieu-thay-doi` và ghi mã phiếu (`TD-xx`) ở ô Truy vết.
+        Gọi thành viên bằng mã (`N07-A`…), không ghi họ tên hay tài khoản.
+  - type: textarea
+    id: cau-chuyen
+    attributes:
+      label: Câu chuyện người dùng
+      description: Hạng mục kỹ thuật không có người dùng hưởng lợi trực tiếp (vẽ sơ đồ, viết ADR) thì ghi việc cần làm và để làm gì.
+      placeholder: "Là <tác nhân>, tôi muốn <việc cần làm> để <giá trị nhận được>."
+    validations:
+      required: false
+  - type: textarea
+    id: tieu-chi
+    attributes:
+      label: Tiêu chí chấp nhận
+      description: Mỗi tiêu chí một khối Given – When – Then. Vế Then phải kiểm được (trạng thái, giá trị, thông báo cụ thể).
+      value: |
+        Given 
+        When 
+        Then 
+    validations:
+      required: true
+  - type: input
+    id: truy-vet
+    attributes:
+      label: Truy vết
+      description: Mã use case, luật nghiệp vụ, yêu cầu hoặc mã phiếu thay đổi, cách nhau bằng dấu phẩy.
+      placeholder: "UC-03, BR-02   hoặc   TD-07"
+    validations:
+      required: true
+  - type: dropdown
+    id: cach-lam
+    attributes:
+      label: Cách làm
+      options:
+        - agent
+        - tay
+    validations:
+      required: true
+  - type: input
+    id: nguoi-phu-trach
+    attributes:
+      label: Người phụ trách (mã, ví dụ N07-B)
+      description: Ghi mã, không ghi tên hay tài khoản. Có thể để trống và điền sau.
+      placeholder: "N07-B"
+    validations:
+      required: false

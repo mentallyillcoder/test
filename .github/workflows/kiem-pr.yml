@@ -1,0 +1,34 @@
+name: kiem-pr
+
+# Kiểm mô tả PR: dòng ba thông tin, mã người, người review khác người điều khiển, đúng một dòng Đóng #
+# (trừ PR tài liệu và PR từ nhánh kho-mau), log agent.
+# Cảnh báo (không chặn) khi PR sửa hoặc xoá test đã có trong tests/ mà chưa ghi vì sao.
+# Không sửa tệp này.
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: kiem-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  kiem-pr:
+    name: kiem-pr
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Lấy script kiểm từ nhánh đích, không lấy từ PR
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          sparse-checkout: scripts
+      - name: Kiểm mô tả PR và log agent
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/kiem_pr.py
