@@ -1,0 +1,42 @@
+name: kiem-pr
+
+# Kiểm mô tả PR: dòng ba thông tin, mã người, người review khác người điều khiển, đúng một dòng Đóng #
+# (trừ PR tài liệu và PR từ nhánh kho-mau), log agent.
+# Cảnh báo (không chặn) khi PR sửa hoặc xoá test đã có trong tests/ mà chưa ghi vì sao.
+# Không sửa tệp này.
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: kiem-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  kiem-pr:
+    name: kiem-pr
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Lấy script kiểm từ nhánh đích, không lấy từ PR
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          sparse-checkout: scripts
+      # Kho chuyển tiếp: nhánh đích chưa có script (PR đầu tiên đưa kho mẫu vào). Lấy bản của kho mẫu, không lấy từ PR.
+      - name: Lấy script kiểm từ kho mẫu nếu nhánh đích chưa có
+        run: |
+          if [ ! -f scripts/kiem_pr.py ]; then
+            mkdir -p scripts
+            curl -fsSL https://raw.githubusercontent.com/uit-se100-2026-hk1/kho-mau-se100/main/scripts/kiem_pr.py -o scripts/kiem_pr.py
+            echo "Nhánh đích chưa có scripts/kiem_pr.py: dùng bản của kho mẫu."
+          fi
+      - name: Kiểm mô tả PR và log agent
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/kiem_pr.py

@@ -1,0 +1,113 @@
+# Pipeline mẫu — bật ở tuần 13 (TH6, Gói 6)
+#
+# CÁCH BẬT: đổi tên tệp này thành `vi-du-ci.yml` (bỏ đuôi .tat), rồi sửa cho
+# khớp ngôn ngữ nhóm đang dùng. Kiểm Gói 6 đòi có ÍT NHẤT MỘT workflow riêng
+# ngoài kiem-pr.yml và kiem-goi.yml — đây là tệp đó. Không có laptop để chạy
+# test thì bật sớm hơn cũng được: mỗi lần đẩy commit lên PR, tab Checks chạy test.
+#
+# Bốn bước của một pipeline tối thiểu: kiểm định dạng → chạy kiểm thử →
+# dựng bản build → deploy bản xem trước. Nhóm nào chưa có test thì bỏ bước 2
+# và ghi vào ADR vì sao — nhưng đến Gói 6 nên có ít nhất một test cho luật
+# nghiệp vụ lõi (tests/luat/).
+#
+# Job dot-bien (mutation testing) chỉ chạy tay: Actions → CI → Run workflow.
+# Không chạy khi push hay PR, không chặn merge. Xem TH6 phần tự chọn và tờ TC8.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  kiem-tra:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # ---- Chọn MỘT trong hai khối dưới, xoá khối còn lại ----
+
+      # --- Node / JavaScript ---
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - run: npm ci || npm install
+      - name: Kiểm định dạng
+        run: npx --yes prettier --check "src/**/*.{js,ts,html,css}" || echo "::warning::Định dạng chưa chuẩn"
+      # package.json cần "scripts": { "test": "node --test" } (hoặc "jest", "vitest run")
+      - name: Chạy kiểm thử
+        run: npm test --if-present
+      - name: Dựng bản build
+        run: npm run build --if-present
+
+      # --- Python (bỏ comment nếu dùng Python, và xoá khối Node ở trên) ---
+      # - uses: actions/setup-python@v7
+      #   with:
+      #     python-version: "3.12"
+      # - run: pip install -r requirements.txt
+      # - name: Kiểm định dạng
+      #   run: pip install ruff && ruff check src/ || echo "::warning::Còn cảnh báo"
+      # - name: Chạy kiểm thử
+      #   run: pip install pytest && python -m pytest tests -v
+
+      - name: Đo trùng lặp mã
+        run: |
+          npx --yes jscpd src --min-tokens 30 --reporters console || true
+          echo "Ghi con số vào docs/trung-lap.md và so với lần đo tuần 3."
+
+  # Mutation testing: đổi từng chỗ nhỏ trong mã (> thành >=, + thành -…) rồi
+  # chạy lại test. Đột biến "sống sót" là chỗ đổi mã mà không test nào đỏ.
+  # Danh sách đột biến sống sót ghi ở Summary của lần chạy. Không có ngưỡng
+  # phải đạt; đọc vài đột biến sống sót và tự hỏi có cần thêm test không.
+  dot-bien:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      # ---- Chọn MỘT trong hai khối dưới, xoá khối còn lại ----
+
+      # --- Python: mutmut ---
+      # mutmut đột biến mã trong src/. Chỉ muốn đột biến tầng miền thì thêm vào pyproject.toml:
+      #   [tool.mutmut]
+      #   source_paths = ["src/domain"]
+      # Test import lớp từ src/ thì thêm luôn:
+      #   [tool.pytest.ini_options]
+      #   pythonpath = ["src"]
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pytest "mutmut>=3,<4"
+      - name: Chạy mutmut
+        run: mutmut run > mutmut.log 2>&1 || (tail -n 40 mutmut.log; exit 1)
+      - name: Ghi đột biến sống sót vào Summary
+        if: always()
+        run: |
+          {
+            echo "### Đột biến sống sót (mutmut)"
+            echo '```'
+            mutmut results || true
+            echo '```'
+            echo "Xem một đột biến: mutmut show <tên> (chạy ở máy), hoặc đọc mutmut.log."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # --- Node / JavaScript: StrykerJS (bỏ comment, xoá khối Python ở trên) ---
+      # Chạy lệnh `npm test` của nhóm cho từng đột biến, nên dùng được với node --test, Jest, Vitest.
+      # - uses: actions/setup-node@v7
+      #   with:
+      #     node-version: "24"
+      # - run: npm ci || npm install
+      # - name: Chạy Stryker
+      #   run: |
+      #     npx --yes -p @stryker-mutator/core@10 stryker run --testRunner command \
+      #       --mutate "src/domain/**/*.js" --reporters clear-text,html | tee stryker.log
+      #     { echo "### Kết quả Stryker"; echo '```'; grep -A12 "Survived\|% Mutation score" stryker.log | head -80; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+  # Deploy: Cloudflare Pages và Netlify tự deploy khi push vào main — không
+  # cần bước ở đây. Nếu tự deploy thì thêm job dưới và đặt secret trong
+  # Settings → Secrets and variables → Actions. KHÔNG commit khoá vào repo.

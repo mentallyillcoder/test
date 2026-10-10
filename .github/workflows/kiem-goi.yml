@@ -1,0 +1,53 @@
+name: kiem-goi
+
+# Tự chạy khi đẩy thẻ goi-2 … goi-6 hoặc review-cheo.
+# Chạy tay trước khi gắn thẻ: Actions → kiem-goi → Run workflow → chọn gói.
+# Không sửa tệp này.
+
+on:
+  push:
+    tags:
+      - "goi-[2-6]"
+      - "review-cheo"
+  workflow_dispatch:
+    inputs:
+      goi:
+        description: "Gói cần kiểm"
+        required: true
+        type: choice
+        options: ["2", "3", "4", "5", "6", "review-cheo"]
+
+permissions:
+  contents: read
+  issues: read   # đọc hạng mục và milestone (Gói 3–6)
+
+jobs:
+  kiem-goi:
+    name: kiem-goi
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # cần toàn bộ lịch sử để đếm thành viên có commit (Gói 2)
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Cài mermaid-cli (kiểm cú pháp sơ đồ)
+        continue-on-error: true
+        run: |
+          npm i -g @mermaid-js/mermaid-cli@11 || echo "Không cài được mmdc; script kiểm sơ bộ dòng đầu sơ đồ"
+          sudo apt-get update -qq && (sudo apt-get install -y -qq libnss3 libatk-bridge2.0-0 libgbm1 libasound2t64 \
+            || sudo apt-get install -y -qq libnss3 libatk-bridge2.0-0 libgbm1 libasound2 || true)
+
+      - name: Kiểm gói
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SE100_GOI: ${{ github.event_name == 'workflow_dispatch' && inputs.goi || github.ref_name }}
+        run: python scripts/kiem_goi.py --kho .
