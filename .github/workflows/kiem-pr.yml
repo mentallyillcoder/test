@@ -28,6 +28,14 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.sha }}
           sparse-checkout: scripts
+      # Kho chuyển tiếp: nhánh đích chưa có script (PR đầu tiên đưa kho mẫu vào). Lấy bản của kho mẫu, không lấy từ PR.
+      - name: Lấy script kiểm từ kho mẫu nếu nhánh đích chưa có
+        run: |
+          if [ ! -f scripts/kiem_pr.py ]; then
+            mkdir -p scripts
+            curl -fsSL https://raw.githubusercontent.com/uit-se100-2026-hk1/kho-mau-se100/main/scripts/kiem_pr.py -o scripts/kiem_pr.py
+            echo "Nhánh đích chưa có scripts/kiem_pr.py: dùng bản của kho mẫu."
+          fi
       - name: Kiểm mô tả PR và log agent
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
