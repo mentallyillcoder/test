@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+
 # [EduRecall - Nền tảng E-learning tích hợp Flashcard] — SE100 · Nhóm N12
 
 Học viên sử dụng hệ thống để đăng ký khóa học, học qua video bài giảng và bắt buộc hoàn thành bài kiểm tra ôn tập bằng bộ từ vựng (Flashcard) để mở khóa tiến trình. Học viên cũng có thể tự tạo bộ Flashcard cá nhân để tự học.
@@ -13,7 +14,9 @@ Về toàn vẹn dữ liệu: Hệ thống nghiêm cấm giáo viên sửa hoặ
 
 ## URL
 
-- Bản chạy: https://
+- Frontend (Cloudflare): https://edurecall.hagiabao0506.workers.dev
+- Backend API (Railway):
+  https://gallant-manifestation-production-e9e8.up.railway.app/api/courses
 - Pipeline: xem tab Actions
 
 ## Thành viên
@@ -89,14 +92,14 @@ Agent mô phỏng thay đổi (`.se100/01_mo_phong_thay_doi.md`, kèm danh mục
 
 ## Các gói
 
-| Gói | Hạn năm nay (23:59) | Thẻ | Nộp gì | Báo cáo |
-|---|---|---|---|---|
-| 2 | CN 18/10, cuối tuần 6 (từ năm sau cuối tuần 5) | `goi-2` | Luồng chính chạy trên URL deploy, hồi cứu vòng 1, `docs/yeu-cau.md`, `docs/phong-van.md`, `docs/cau-hoi-khach-hang.md` | `bao-cao/goi2-vong1-yeu-cau.md` |
-| 3 | CN 25/10, cuối tuần 7 | `goi-3` | `diagrams/use-case.mmd`, ba `docs/dac-ta-UC-*.md`, ít nhất hai `diagrams/seq-*.mmd`; user story và Given–When–Then trên Issues (milestone Gói 3) | `bao-cao/goi3-dac-ta.md` |
-| 4 | CN 08/11, cuối tuần 9 | `goi-4` | `diagrams/class.mmd`, `diagrams/state.mmd`, mã khớp sơ đồ, `docs/tu-danh-gia-M3.md`; phiếu thay đổi đợt 1, log phiên, ADR xử lý phiếu | `bao-cao/goi4-mo-hinh.md` |
-| Review chéo | CN 15/11, cuối tuần 10 | `review-cheo` | Một báo cáo tối đa 2 trang về kho của nhóm mình review | `bao-cao/review-cheo.md` |
-| 5 | CN 22/11, cuối tuần 11 | `goi-5` | `diagrams/c4-context.mmd`, `c4-container.mmd`, `docs/du-lieu.md`, `adr/0001-*.md`, `AGENTS.md`; phiếu thay đổi đợt 2, log phiên, ADR xử lý phiếu | `bao-cao/goi5-kien-truc.md` |
-| 6 | CN 13/12, tuần 14 | `goi-6` | Pipeline xanh, URL sống, ba phiếu thay đổi đã làm thật (phiếu đợt 3, log phiên, ADR), `docs/trung-lap.md`, kho bàn giao được | `bao-cao/goi6-tong-ket.md` |
+| Gói         | Hạn năm nay (23:59)                            | Thẻ           | Nộp gì                                                                                                                                           | Báo cáo                         |
+| ----------- | ---------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- |
+| 2           | CN 18/10, cuối tuần 6 (từ năm sau cuối tuần 5) | `goi-2`       | Luồng chính chạy trên URL deploy, hồi cứu vòng 1, `docs/yeu-cau.md`, `docs/phong-van.md`, `docs/cau-hoi-khach-hang.md`                           | `bao-cao/goi2-vong1-yeu-cau.md` |
+| 3           | CN 25/10, cuối tuần 7                          | `goi-3`       | `diagrams/use-case.mmd`, ba `docs/dac-ta-UC-*.md`, ít nhất hai `diagrams/seq-*.mmd`; user story và Given–When–Then trên Issues (milestone Gói 3) | `bao-cao/goi3-dac-ta.md`        |
+| 4           | CN 08/11, cuối tuần 9                          | `goi-4`       | `diagrams/class.mmd`, `diagrams/state.mmd`, mã khớp sơ đồ, `docs/tu-danh-gia-M3.md`; phiếu thay đổi đợt 1, log phiên, ADR xử lý phiếu            | `bao-cao/goi4-mo-hinh.md`       |
+| Review chéo | CN 15/11, cuối tuần 10                         | `review-cheo` | Một báo cáo tối đa 2 trang về kho của nhóm mình review                                                                                           | `bao-cao/review-cheo.md`        |
+| 5           | CN 22/11, cuối tuần 11                         | `goi-5`       | `diagrams/c4-context.mmd`, `c4-container.mmd`, `docs/du-lieu.md`, `adr/0001-*.md`, `AGENTS.md`; phiếu thay đổi đợt 2, log phiên, ADR xử lý phiếu | `bao-cao/goi5-kien-truc.md`     |
+| 6           | CN 13/12, tuần 14                              | `goi-6`       | Pipeline xanh, URL sống, ba phiếu thay đổi đã làm thật (phiếu đợt 3, log phiên, ADR), `docs/trung-lap.md`, kho bàn giao được                     | `bao-cao/goi6-tong-ket.md`      |
 
 Lớp đổi hạn thì theo thông báo của lớp. Báo cáo các gói 2–5 có bốn ô dài một trang: đã làm gì; ba quyết định thiết kế lớn nhất; thẩm định (hai lần nhóm kiểm kết quả của agent: kiểm bằng gì, kết luận đúng hay sai; agent làm đúng mà chứng minh được vẫn đạt); retro ba dòng. Gói 2 thêm hồi cứu vòng 1; Gói 4 thêm phần xử lý phiếu đợt 1; Gói 5 thêm phần trả lời review chéo và phần xử lý phiếu đợt 2. Báo cáo Gói 6 dài 3–4 trang. Khung có sẵn trong `bao-cao/`; viết xong mục nào thì xoá dòng giữ chỗ `<!-- điền: … -->` của mục đó.
 
@@ -137,4 +140,5 @@ python scripts/kiem_moc.py M3          # chỉ phần sơ đồ và tài liệu 
 Gói 2 = M0 + M1, Gói 3 = M2, Gói 4 = M3, Gói 5 = M4, Gói 6 = M5.
 
 Kết quả kiểm gói là kiểm thủ tục, không phải điểm. Lần chạy có mục chưa đạt hiện dấu đỏ; thẻ vẫn được ghi nhận là đã nộp.
->>>>>>> 1157287d4663e6e62979195b7ac67d366612303d
+
+> > > > > > > 1157287d4663e6e62979195b7ac67d366612303d

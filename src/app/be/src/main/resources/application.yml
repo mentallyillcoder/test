@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 spring:
   application:
@@ -34,7 +34,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none          # bảng được tạo bởi db/schema.sql, Hibernate không tự tạo
+      ddl-auto: none # bảng được tạo bởi db/schema.sql, Hibernate không tự tạo
     open-in-view: false
     show-sql: true
     properties:
@@ -45,7 +45,7 @@ spring:
 app:
   demo-user-id: 2
   cors:
-    allowed-origins: http://localhost:5173,http://127.0.0.1:5173
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
 
 logging:
   level:
