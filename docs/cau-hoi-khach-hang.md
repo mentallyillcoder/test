@@ -1,17 +1,7 @@
-<<<<<<< HEAD
-# Danh sách câu hỏi cho khách hàng (Nền tảng E-learning tích hợp Flashcard)
-
-1. Về tính năng bộ Flashcard bắt buộc để mở khóa bài học, hệ thống có cho phép học viên thi lại nhiều lần nếu không đạt điểm tối thiểu (mặc định 80%) không, hay sẽ bị giới hạn số lần thử và phải chờ thời gian phạt?
-2. Đối với các khóa học bị học viên báo cáo vi phạm, quản trị viên sẽ tự động tạm đình chỉ khóa học đó ngay lập tức để kiểm tra, hay vẫn cho phép khóa học hiển thị với học viên cho đến khi quản trị viên có quyết định xử lý chính thức?
-3. Ở phần tiến trình học tập, nếu giáo viên cập nhật nội dung hoặc thêm bài học mới vào một khóa học đã được xuất bản (Published), phần trăm hoàn thành của các học viên đang học dở khóa đó có bị tính lại hay không?
-=======
 # Ba câu sẽ hỏi khách hàng
 
-*Gói 2. Kiểm gói đếm dấu `?`, cần ≥ 3. Hỏi thật vào, đừng hỏi kiểu "hệ thống cần những gì".*
+1. Khi một khóa học có nội dung sai hoặc không phù hợp, ai là người chịu trách nhiệm xử lý: giáo viên tạo khóa học hay quản trị viên nền tảng? Trong thời gian chờ xác minh, ai có quyền quyết định khóa học tiếp tục được hiển thị hay phải tạm ẩn? Nếu xử lý chậm thì những học viên đang học sẽ bị ảnh hưởng như thế nào?
 
-Câu hỏi tốt là câu hỏi về **bối cảnh**: ai sở hữu, ai trả tiền, ai chịu trách nhiệm, sai thì chuyện gì xảy ra. Hỏi về **chức năng** thì dễ nhưng ít dùng được. Buổi 5 có tám câu chị Hạnh trả lời trên slide; so câu của nhóm với tám câu đó.
+2. Nếu học viên đã học xong bài nhưng liên tục không đạt điểm tối thiểu 80% ở phần Flashcard, ai là người quyết định học viên có được thi lại, tiếp tục học hay phải học lại nội dung? Có giới hạn số lần thi không, và nếu học viên không thể mở khóa bài tiếp theo thì hệ thống cần ghi nhận, thông báo và hỗ trợ họ như thế nào?
 
-1. 
-2. 
-3. 
->>>>>>> 1157287d4663e6e62979195b7ac67d366612303d
+3. Nếu giáo viên thêm, sửa hoặc xóa bài học trong một khóa học đã xuất bản, tiến độ và kết quả học tập của những học viên đang theo học sẽ được xử lý ra sao? Ai có quyền quyết định cách tính lại phần trăm hoàn thành, và hệ thống cần làm gì để tránh mất kết quả đã đạt được hoặc hiển thị tiến độ sai cho học viên?
