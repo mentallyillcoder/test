@@ -1,6 +1,6 @@
 # Báo cáo Gói 2: Vòng 1 và yêu cầu
 
-**Nhóm N12** · Đề tài tự đề xuất: Nền tảng E-learning tích hợp Flashcard(EduRecall)
+**Nhóm N12** · Đề tài tự đề xuất: Nền tảng E-learning tích hợp Flashcard(EduRecall)· Gói 2 · Nhóm đang review: N11
 
 | Thành viên | Vai                           |
 | ---------- | ----------------------------- |
@@ -31,13 +31,13 @@ Chốt khi viết bảng yêu cầu, áp dụng cho vòng 2; ADR viết ở Gói
 
 ## 3. Thẩm định
 
-- **Lần 1, PR #**, `log-tac-tu/PR-**.md`.** Agent soạn bảng tác nhân và FR trong `docs/yeu-cau.md`. N12-A đối chiếu bảng tác nhân với ý tưởng đề tài và quy tắc của TH3 ("hai tác nhân muốn giống nhau thì là một"). Kết luận **sai\*\*: agent tự thêm tác nhân "Khách chưa đăng nhập" dùng chatbot, trong khi nhóm chỉ cho dùng chatbot sau khi đăng nhập, và Khách với Học viên cùng muốn một thứ là tìm khóa học. Đã sửa: bỏ tác nhân Khách, chuyển FR-01, FR-02 và BR-02 về Học viên.
-- **Lần 2, cùng PR.** Agent nháp mục 2 của báo cáo này. N12-A đọc bản nháp và đối chiếu với yêu cầu ô 2 trong Mục 4.1 của hướng dẫn ("ba quyết định lớn nhất của gói") và với kiến trúc nhóm đã chốt cho vòng 2. Kết luận **sai**: agent chỉ mô tả lại những gì mã demo vòng 1 đang làm (localStorage làm bộ đệm, chặn bài khóa bằng 403, đổi ngưỡng qua bài), không phải quyết định thiết kế của nhóm, và bỏ sót Keycloak cùng Supabase dù cả hai đã có trong `docs/yeu-cau.md`. Đã sửa: viết lại mục 2 thành ba quyết định Keycloak làm máy chủ xác thực, Supabase cho dữ liệu và video, và chấm bài ở máy chủ có lưu từng câu trả lời; sửa mục 5 cho khớp.
+- **Lần 1, PR #7, `log-tac-tu/PR-7.md`.** Agent soạn bảng tác nhân và FR trong `docs/yeu-cau.md`. N12-A đối chiếu bảng tác nhân với ý tưởng đề tài và quy tắc của TH3 ("hai tác nhân muốn giống nhau thì là một"). Kết luận **sai**: agent tự thêm tác nhân "Khách chưa đăng nhập" dùng chatbot, trong khi nhóm chỉ cho dùng chatbot sau khi đăng nhập, và Khách với Học viên cùng muốn một thứ là tìm khóa học. Đã sửa: bỏ tác nhân Khách, chuyển FR-01, FR-02 và BR-02 về Học viên.
+- **Lần 2, PR #7, `log-tac-tu/PR-7.md`.** Agent nháp mục 2 của báo cáo này. N12-A đọc bản nháp và đối chiếu với yêu cầu ô 2 trong Mục 4.1 của hướng dẫn ("ba quyết định lớn nhất của gói") và với kiến trúc nhóm đã chốt cho vòng 2. Kết luận **sai**: agent chỉ mô tả lại những gì mã demo vòng 1 đang làm (localStorage làm bộ đệm, chặn bài khóa bằng 403, đổi ngưỡng qua bài), không phải quyết định thiết kế của nhóm, và bỏ sót Keycloak cùng Supabase dù cả hai đã có trong `docs/yeu-cau.md`. Đã sửa: viết lại mục 2 thành ba quyết định Keycloak làm máy chủ xác thực, Supabase cho dữ liệu và video, và chấm bài ở máy chủ có lưu từng câu trả lời; sửa mục 5 cho khớp.
 
 ## 4. Retro ba dòng
 
 - **Làm tốt:** luồng lõi chạy hết từ đầu đến cuối trên URL công khai; luật khóa bài nằm ở backend và có test luồng (`LearningFlowTests.java`, 2 ca).
-- **Chưa tốt:** không thống nhất luật và hợp đồng API trước khi chia việc, nên cùng một luật có ba phiên bản. Chưa PR nào kèm log agent. README trên `main` còn sót dấu xung đột merge, đã sửa ở PR #\_\_.
+- **Chưa tốt:** không thống nhất luật và hợp đồng API trước khi chia việc, nên cùng một luật có ba phiên bản. Chưa PR nào kèm log agent. README trên `main` còn sót dấu xung đột merge, đã sửa ở PR #7.
 - **Sẽ đổi:** từ Gói 3, mọi PR dùng agent phải giao việc bằng khuôn sáu dòng và kèm `log-tac-tu/PR-<số>.md` (N12-C theo dõi). Luật được chốt trong đặc tả trước rồi mới giao agent viết mã (N12-A theo dõi).
 
 ## 5. Hồi cứu vòng 1
