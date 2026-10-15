@@ -29,8 +29,6 @@ Những thay đổi này cho thấy Frontend và Backend cần thống nhất í
 - Cách biểu diễn lỗi và cách giao diện hiển thị lỗi.
 - Quy tắc xác định bài tiếp theo sau khi hoàn thành bài hiện tại.
 
-Ảnh diff cho thấy có điều chỉnh để tương thích, nhưng không đủ để kết luận chính xác tên hoặc kiểu tham số ban đầu mà từng thành viên đã thống nhất bằng lời. Nhóm nên bổ sung chi tiết đó nếu còn nhớ hoặc có thể kiểm tra từ lịch sử code.
-
 ### 2.4. Reset tiến độ
 
 Phiên bản trước xóa tiến độ trong `localStorage` rồi tải lại trang. Phiên bản sau chuyển sang gọi `learningApi.resetProgress(selectedCourseId)`, sau đó áp dụng danh sách bài học trả về. Điều này phù hợp hơn với trường hợp Backend quản lý tiến độ, vì thao tác reset cần được thực hiện và đồng bộ qua API thay vì chỉ xóa dữ liệu trên trình duyệt.

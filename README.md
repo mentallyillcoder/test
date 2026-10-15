@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # [EduRecall - Nền tảng E-learning tích hợp Flashcard] — SE100 · Nhóm N12
 
 Học viên sử dụng hệ thống để đăng ký khóa học, học qua video bài giảng và bắt buộc hoàn thành bài kiểm tra ôn tập bằng bộ từ vựng (Flashcard) để mở khóa tiến trình. Học viên cũng có thể tự tạo bộ Flashcard cá nhân để tự học.
@@ -140,5 +138,3 @@ python scripts/kiem_moc.py M3          # chỉ phần sơ đồ và tài liệu 
 Gói 2 = M0 + M1, Gói 3 = M2, Gói 4 = M3, Gói 5 = M4, Gói 6 = M5.
 
 Kết quả kiểm gói là kiểm thủ tục, không phải điểm. Lần chạy có mục chưa đạt hiện dấu đỏ; thẻ vẫn được ghi nhận là đã nộp.
-
-> > > > > > > 1157287d4663e6e62979195b7ac67d366612303d
