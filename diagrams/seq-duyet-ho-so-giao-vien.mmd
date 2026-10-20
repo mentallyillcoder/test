@@ -1,0 +1,41 @@
+sequenceDiagram
+  %% Phụ trách: N12-C
+  %% UC-03 Duyệt hồ sơ giáo viên (docs/dac-ta-UC-03.md)
+  actor QuanTriVien as Quản trị viên
+  participant TeacherApplication
+  participant User
+  actor Keycloak
+  actor DichVuEmail as Dịch vụ email
+
+  QuanTriVien->>TeacherApplication: getReviewDetails()
+  TeacherApplication-->>QuanTriVien: chuyên môn, minh chứng, CV, các lần nộp trước
+
+  alt Quản trị viên bấm Duyệt (bước 3)
+    QuanTriVien->>TeacherApplication: approve()
+    alt hồ sơ không còn Pending (luồng 3f)
+      TeacherApplication-->>QuanTriVien: đã được quản trị viên khác xử lý
+    else hồ sơ đang Pending
+      TeacherApplication->>User: grantTeacherRole()
+      User->>Keycloak: gán vai trò giáo viên
+      alt Keycloak lỗi hoặc không phản hồi (luồng 4e)
+        Keycloak-->>User: lỗi
+        User-->>TeacherApplication: chưa gán được vai trò
+        TeacherApplication-->>QuanTriVien: chưa cấp được quyền, hồ sơ vẫn Pending
+      else Keycloak xác nhận (bước 4)
+        Keycloak-->>User: đã gán
+        User-->>TeacherApplication: đã có vai trò giáo viên
+        Note over TeacherApplication: hồ sơ chuyển Approved, lưu người duyệt và thời điểm
+        TeacherApplication->>DichVuEmail: gửi thư báo hồ sơ đã được duyệt
+        TeacherApplication-->>QuanTriVien: đã duyệt hồ sơ giáo viên
+      end
+    end
+  else Quản trị viên bấm Từ chối (luồng 3a)
+    QuanTriVien->>TeacherApplication: reject(reason)
+    alt lý do trống (luồng 3e)
+      TeacherApplication-->>QuanTriVien: phải nhập lý do khi từ chối
+    else có lý do
+      Note over TeacherApplication: hồ sơ chuyển Rejected, lưu lý do, không gọi Keycloak
+      TeacherApplication->>DichVuEmail: gửi thư báo từ chối kèm lý do
+      TeacherApplication-->>QuanTriVien: đã từ chối hồ sơ
+    end
+  end

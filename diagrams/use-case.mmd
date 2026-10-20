@@ -1,0 +1,51 @@
+flowchart LR
+  %% Phụ trách: N12-A
+  HV([Học viên])
+  GV([Giáo viên])
+  QTV([Quản trị viên])
+  KC([Keycloak])
+  EMAIL([Dịch vụ email])
+  LLM([Dịch vụ LLM])
+
+  subgraph HT[Hệ thống EduRecall]
+    UC04(UC-04 Tìm và đăng ký khóa học)
+    UC05(UC-05 Hỏi chatbot gợi ý khóa học)
+    UC01(UC-01 Học bài và làm bài kiểm tra)
+    UC06(UC-06 Xem tiến độ học)
+    UC07(UC-07 Ôn bằng flashcard cá nhân)
+    UC08(UC-08 Báo cáo khóa học vi phạm)
+    UC09(UC-09 Nộp hồ sơ giáo viên)
+    UC10(UC-10 Soạn khóa học và bài kiểm tra)
+    UC11(UC-11 Gửi khóa học đi duyệt)
+    UC12(UC-12 Xem thống kê khóa học)
+    UC02(UC-02 Duyệt khóa học)
+    UC03(UC-03 Duyệt hồ sơ giáo viên)
+    UC13(UC-13 Xử lý báo cáo vi phạm)
+    UC14(UC-14 Khóa hoặc mở khóa tài khoản)
+    UC15(UC-15 Cập nhật danh mục khóa học)
+  end
+
+  HV --> UC04
+  HV --> UC05
+  HV --> UC01
+  HV --> UC06
+  HV --> UC07
+  HV --> UC08
+
+  GV --> UC09
+  GV --> UC10
+  GV --> UC11
+  GV --> UC12
+
+  QTV --> UC02
+  QTV --> UC03
+  QTV --> UC13
+  QTV --> UC14
+  QTV --> UC15
+
+  UC05 --> LLM
+  UC02 --> EMAIL
+  UC03 --> EMAIL
+  UC03 --> KC
+  UC13 --> EMAIL
+  UC14 --> KC
