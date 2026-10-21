@@ -1,0 +1,56 @@
+sequenceDiagram
+  %% Phụ trách: N12-B
+  %% UC-01 Học bài và làm bài kiểm tra (docs/dac-ta-UC-01.md)
+  actor HocVien as Học viên
+  participant Enrollment
+  participant LessonProgress
+  participant Quiz
+  participant QuizAttempt
+
+  HocVien->>Enrollment: openLesson(lessonId)
+  alt khóa học đang Suspended (luồng 1e)
+    Enrollment-->>HocVien: từ chối, tiến độ vẫn được giữ
+  else bài học đang khóa (luồng 1f)
+    Enrollment-->>HocVien: từ chối, bài học đang bị khóa
+  else bài học đã mở (bước 1)
+    Enrollment->>LessonProgress: getResumePosition()
+    LessonProgress-->>Enrollment: vị trí dừng lần trước
+    Enrollment-->>HocVien: video và vị trí phát
+  end
+
+  loop trong lúc xem video (bước 2)
+    HocVien->>Enrollment: recordWatch(lessonId, position)
+    Enrollment->>LessonProgress: recordWatch(position)
+  end
+
+  HocVien->>Enrollment: startQuiz(lessonId)
+  Enrollment->>LessonProgress: hasWatchedEnough()
+  LessonProgress-->>Enrollment: đã xem đủ 90% hay chưa
+  alt chưa xem đủ 90% (luồng 3a)
+    Enrollment-->>HocVien: cần xem ít nhất 90% video
+  else đã xem đủ 90% (bước 3)
+    Enrollment->>Quiz: startAttempt()
+    Quiz->>QuizAttempt: new QuizAttempt()
+    Note over QuizAttempt: ghi lại điểm tối thiểu hiện tại
+    Quiz-->>Enrollment: lượt làm bài và câu hỏi
+    Enrollment-->>HocVien: danh sách câu hỏi
+  end
+
+  HocVien->>Enrollment: submitQuiz(attemptId, answers)
+  Enrollment->>QuizAttempt: submit(answers)
+  alt lượt này đã được chấm (luồng 4a)
+    QuizAttempt-->>Enrollment: kết quả cũ, không chấm lại
+  else lượt đang làm (bước 4)
+    QuizAttempt->>Quiz: grade(answers)
+    Quiz-->>QuizAttempt: điểm và các câu sai
+    QuizAttempt-->>Enrollment: điểm, điểm tối thiểu, các câu sai
+  end
+
+  alt đạt điểm tối thiểu (bước 5)
+    Enrollment->>LessonProgress: complete()
+    opt còn bài kế tiếp (không phải luồng 5b)
+      Enrollment->>Enrollment: unlockNextLesson()
+    end
+    Enrollment->>Enrollment: recalculateProgress()
+  end
+  Enrollment-->>HocVien: điểm, điểm tối thiểu, các câu sai

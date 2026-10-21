@@ -1,0 +1,38 @@
+sequenceDiagram
+  %% Phụ trách: N12-A
+  %% UC-02 Duyệt khóa học (docs/dac-ta-UC-02.md)
+  actor QuanTriVien as Quản trị viên
+  participant CourseRevision
+  participant Course
+  participant Enrollment
+  actor DichVuEmail as Dịch vụ email
+
+  QuanTriVien->>CourseRevision: getReviewContent()
+  CourseRevision-->>QuanTriVien: bài học, video, bài kiểm tra, phần thay đổi so với bản đang phát hành
+
+  alt Quản trị viên bấm Phát hành (bước 3)
+    QuanTriVien->>CourseRevision: approve()
+    alt bản không còn Pending (luồng 3f)
+      CourseRevision-->>QuanTriVien: đã được quản trị viên khác xử lý
+    else bản đang Pending
+      CourseRevision->>Course: publish(revision)
+      Note over Course: bản này thành bản đang phát hành, khóa chuyển Published
+      opt đây là bản sửa của khóa đã Published (bước 4)
+        loop mỗi học viên đang học khóa này
+          Course->>Enrollment: moveToRevision(revision)
+        end
+      end
+      CourseRevision->>DichVuEmail: gửi thư báo khóa học đã phát hành
+      CourseRevision-->>QuanTriVien: đã phát hành khóa học
+    end
+  else Quản trị viên bấm Từ chối (luồng 3a)
+    QuanTriVien->>CourseRevision: reject(reason)
+    alt lý do trống (luồng 3e)
+      CourseRevision-->>QuanTriVien: phải nhập lý do khi từ chối
+    else có lý do
+      CourseRevision->>Course: rejectRevision(revision)
+      Note over Course: bản đầu thì khóa chuyển Rejected, bản sửa thì khóa vẫn Published với bản cũ
+      CourseRevision->>DichVuEmail: gửi thư báo từ chối kèm lý do
+      CourseRevision-->>QuanTriVien: đã từ chối khóa học
+    end
+  end
