@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_DB: edurecall
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changemeinprod!
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - "8888:8080"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    ports:
+      - "9090:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+      - ./keycloak/import:/opt/keycloak/data/import
+    command:
+      - start-dev
+      - --db=dev-file
+      - --import-realm
+
+volumes:
+  pgdata:
+  keycloak-data:
