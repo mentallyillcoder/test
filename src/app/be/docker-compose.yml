@@ -27,6 +27,7 @@ services:
     volumes:
       - keycloak-data:/opt/keycloak/data
       - ./keycloak/import:/opt/keycloak/data/import
+      - ./keycloak/providers:/opt/keycloak/providers
     command:
       - start-dev
       - --db=dev-file

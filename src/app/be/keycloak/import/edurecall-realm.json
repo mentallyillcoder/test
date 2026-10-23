@@ -1,6 +1,7 @@
 {
   "id": "c706d589-6eb8-4bd9-b50a-78346f9adcfd",
   "realm": "edurecall",
+   "loginTheme": "edurecall",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
