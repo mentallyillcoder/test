@@ -2,7 +2,7 @@ services:
   db:
     image: postgres:16
     ports:
-      - "5432:5432"
+      - "543:5432"
     restart: always
     environment:
       POSTGRES_DB: edurecall
